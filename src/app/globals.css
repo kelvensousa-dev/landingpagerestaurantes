@@ -1,0 +1,43 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-outfit);
+  
+  --color-primary: var(--color-primary-base);
+  --color-background: var(--color-background-base);
+  --color-foreground: var(--color-foreground-base);
+}
+
+:root {
+  --color-primary-base: #f59e0b; /* Amber 500 */
+  --color-background-base: #09090b; /* Zinc 950 */
+  --color-foreground-base: #fafafa; /* Zinc 50 */
+}
+
+@layer base {
+  * {
+    border-color: #27272a;
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+  }
+}
+
+@keyframes pulse-ring {
+  0%, 10% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+  15% { transform: scale(1.05); box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+  20%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
