@@ -28,7 +28,7 @@ export const restaurante = {
     instagram: "https://instagram.com",
     facebook: "https://facebook.com",
   },
-  privacyPolicyUrl: "/privacidade",
+  privacyPolicyUrl: "",
   colors: {
     primary: "#f59e0b", // Amber-500
     background: "#09090b", // Zinc-950
