@@ -3,24 +3,22 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { restaurante } from "@/config/restaurante";
-import { Star } from "lucide-react";
+import { Star, StarHalf } from "lucide-react";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 function Counter({ end, duration = 2000, suffix = "" }: { end: number, duration?: number, suffix?: string }) {
-  const [count, setCount] = useState(0);
+  // Inicializa com o valor final para o HTML/SSR
+  const [count, setCount] = useState(end);
   const ref = useRef<HTMLDivElement>(null);
+  const hasAnimated = useRef(false);
 
   useEffect(() => {
-    // Respect prefers-reduced-motion
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReducedMotion) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setCount(end);
-      return;
-    }
+    if (prefersReducedMotion) return;
 
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
+      if (entries[0].isIntersecting && !hasAnimated.current) {
+        hasAnimated.current = true;
         let startTime: number | null = null;
         
         const animate = (currentTime: number) => {
@@ -47,7 +45,7 @@ function Counter({ end, duration = 2000, suffix = "" }: { end: number, duration?
   }, [end, duration]);
 
   return (
-    <div ref={ref} className="text-4xl font-bold font-display text-[#f59e0b]">
+    <div ref={ref} className="text-4xl font-bold font-display text-primary">
       {count.toLocaleString('pt-BR')}{suffix}
     </div>
   );
@@ -56,22 +54,30 @@ function Counter({ end, duration = 2000, suffix = "" }: { end: number, duration?
 export function ProvaSocial() {
   const { socialProof } = restaurante;
 
+  const rating = Math.round(socialProof.googleRating * 2) / 2;
+  const fullStars = Math.floor(rating);
+  const hasHalfStar = rating % 1 !== 0;
+
   return (
     <section className="py-20 bg-zinc-900/30">
       <div className="max-w-7xl mx-auto px-4">
         
-        <div className="flex flex-col md:flex-row gap-12 items-center justify-between mb-16">
-          <div className="flex flex-col items-center md:items-start">
-            <div className="flex gap-1 text-[#f59e0b] mb-2">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="fill-current w-8 h-8" />
+        <div className="flex flex-col md:flex-row gap-12 items-center justify-center mb-16">
+          <div className="flex flex-col items-center">
+            <div 
+              className="flex gap-1 text-primary mb-2" 
+              aria-label={`Avaliação de ${socialProof.googleRating} de 5 estrelas`}
+            >
+              {[...Array(fullStars)].map((_, i) => (
+                <Star key={`full-${i}`} className="fill-current w-8 h-8" />
               ))}
+              {hasHalfStar && <StarHalf className="fill-current w-8 h-8" />}
             </div>
             <div className="text-2xl font-bold">{socialProof.googleRating} de 5 no Google</div>
             <div className="text-zinc-400">Baseado em +{socialProof.reviewsCount} avaliações</div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 text-center">
+          <div className="grid grid-cols-2 gap-8 text-center ml-0 md:ml-12 border-t md:border-t-0 md:border-l border-zinc-800 pt-8 md:pt-0 md:pl-12">
             <div>
               <Counter end={socialProof.ordersDelivered} suffix="+" />
               <div className="text-sm text-zinc-400 uppercase tracking-wider mt-2">Pedidos Entregues</div>
@@ -79,10 +85,6 @@ export function ProvaSocial() {
             <div>
               <Counter end={socialProof.yearsInBusiness} suffix=" anos" />
               <div className="text-sm text-zinc-400 uppercase tracking-wider mt-2">De Tradição</div>
-            </div>
-            <div className="col-span-2 md:col-span-1">
-              <Counter end={socialProof.reviewsCount} suffix="+" />
-              <div className="text-sm text-zinc-400 uppercase tracking-wider mt-2">Clientes Satisfeitos</div>
             </div>
           </div>
         </div>
@@ -97,7 +99,7 @@ export function ProvaSocial() {
                 </div>
                 <div>
                   <div className="font-semibold">{t.name}</div>
-                  <div className="flex text-[#f59e0b]">
+                  <div className="flex text-primary">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="fill-current w-3 h-3" />
                     ))}

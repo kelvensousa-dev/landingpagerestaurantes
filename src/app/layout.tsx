@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: restaurante.name,
     images: [
       {
-        url: "/images/og-image.webp",
+        url: "/images/og-image.jpg",
         width: 1200,
         height: 630,
         alt: restaurante.name,
@@ -72,8 +72,15 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${outfit.variable} scroll-smooth`}>
+    <html lang="pt-BR" className={`${inter.variable} ${outfit.variable}`}>
       <head>
+        <style dangerouslySetInnerHTML={{ __html: `
+          :root {
+            --brand-primary: ${restaurante.colors.primary};
+            --brand-bg: ${restaurante.colors.background};
+            --brand-fg: ${restaurante.colors.foreground};
+          }
+        `}} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

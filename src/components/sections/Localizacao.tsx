@@ -12,6 +12,7 @@ export function Localizacao() {
   // Generate directions URL (Google Maps format based on address)
   const encodedAddress = encodeURIComponent(restaurante.location.address);
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodedAddress}`;
+  const embedUrl = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
 
   return (
     <section className="py-20 px-4 max-w-7xl mx-auto">
@@ -26,7 +27,7 @@ export function Localizacao() {
         
         {/* Info Column */}
         <div className="p-8 md:p-12 flex flex-col items-center md:items-start text-center md:text-left">
-          <MapPin className="w-12 h-12 text-[#f59e0b] mb-6" />
+          <MapPin className="w-12 h-12 text-primary mb-6" />
           <h3 className="text-2xl font-bold mb-4">{restaurante.name}</h3>
           <p className="text-lg text-zinc-300 mb-8 max-w-md">
             {restaurante.location.address}
@@ -34,7 +35,7 @@ export function Localizacao() {
           <Button 
             asChild
             size="lg" 
-            className="w-full sm:w-auto bg-[#f59e0b] text-[#09090b] hover:bg-[#f59e0b]/90 font-bold h-12 px-8"
+            className="w-full sm:w-auto bg-primary text-background hover:bg-primary/90 font-bold h-12 px-8"
           >
             <a href={directionsUrl} target="_blank" rel="noopener noreferrer">
               Como chegar
@@ -72,7 +73,7 @@ export function Localizacao() {
             </div>
           ) : (
             <iframe 
-              src={restaurante.location.mapIframeUrl} 
+              src={embedUrl} 
               className="absolute inset-0 w-full h-full border-0"
               allowFullScreen 
               loading="lazy" 

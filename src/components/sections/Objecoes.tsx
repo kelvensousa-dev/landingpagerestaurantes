@@ -6,29 +6,29 @@ export function Objecoes() {
 
   const items = [
     {
-      icon: <Clock className="w-8 h-8 mb-4 text-[#f59e0b]" />,
-      title: "Entrega Rápida",
+      icon: <Clock className="w-8 h-8 mb-4 text-primary" />,
+      title: objections.titles.deliveryTime,
       description: objections.deliveryTime,
     },
     {
-      icon: <Bike className="w-8 h-8 mb-4 text-[#f59e0b]" />,
-      title: "Taxa Justa",
+      icon: <Bike className="w-8 h-8 mb-4 text-primary" />,
+      title: objections.titles.deliveryFee,
       description: objections.deliveryFee,
     },
     {
-      icon: <CreditCard className="w-8 h-8 mb-4 text-[#f59e0b]" />,
-      title: "Pagamento Facilitado",
+      icon: <CreditCard className="w-8 h-8 mb-4 text-primary" />,
+      title: objections.titles.paymentMethods,
       description: objections.paymentMethods,
     },
     {
-      icon: <MapPin className="w-8 h-8 mb-4 text-[#f59e0b]" />,
-      title: "Área de Cobertura",
+      icon: <MapPin className="w-8 h-8 mb-4 text-primary" />,
+      title: objections.titles.coverage,
       description: objections.coverage,
     },
   ];
 
   return (
-    <section className="py-16 bg-[#f59e0b]/10 border-y border-[#f59e0b]/20">
+    <section className="py-16 bg-primary/10 border-y border-primary/20">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
           {items.map((item, index) => (

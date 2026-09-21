@@ -1,24 +1,24 @@
-# Relatório Técnico - Landing Page Artesanal Burger
+# Relatório Final: Landing Page de Alta Conversão para Restaurantes
 
-## Confirmações de Requisitos
+## Configurações Atuais
+- Framework: Next.js 15 (App Router)
+- Estilização: Tailwind CSS v4 (inline theme)
+- Componentes: shadcn/ui
+- Exportação: `output: 'export'`
 
-1. **Botões de WhatsApp nos Cards:** Sim! No componente `Destaques.tsx`, o botão `Peça Agora` aciona a função `generateWhatsAppLink` que por sua vez gera o link pré-preenchido utilizando `getPrefilledMessage("Nome do Produto")`, direcionando exatamente para o item do card com base na configuração.
-2. **`og:image` com URL absoluta:** Sim! No `layout.tsx`, eu configurei a variável estática exportada `metadata` contendo `metadataBase: new URL(restaurante.domain)`, o que obriga que qualquer `openGraph.images` informada de forma relativa (como `/images/og-image.webp`) seja transformada automaticamente pelo Next.js em uma URL estática e completa na renderização das tags meta.
-3. **`images: { unoptimized: true }`:** Sim! O `next.config.ts` possui o bloco `output: 'export'` e `images: { unoptimized: true }`, o que diz ao framework para pular o servidor Node local para as tags `next/image` de modo que elas sirvam a imagem final pura diretamente da pasta `/out/images/`.
-4. **Regras Desativadas do ESLint:** Para evitar problemas do React 18+ de cascata (hydration mismatch warning) e lidar com os cálculos das datas somente via cliente (no browser do usuário final), nós utilizamos a desativação seletiva `// eslint-disable-next-line react-hooks/set-state-in-effect`. Isso foi aplicado exata e puramente nas seguintes linhas:
-   - `Hero.tsx` (linha onde configuramos o `setOpenStatus`).
-   - `ProvaSocial.tsx` (onde forçamos os números pularem direto pro fim no caso de `prefers-reduced-motion`).
-   - `FloatingWhatsApp.tsx` (exibir logo após detectar a falta do botão).
-5. **Testes de Tempo (isOpen):** Sim! Se você inspecionar `__tests__/time.test.ts`, incluímos testes diretos verificando as segundas-feiras (`closedAllDay`), horários como `00:30` da madrugada (para turnos de terça-feira que passam do zero), finais de semana e as viradas noturnas exatas (`23:01`).
-6. **Marcas no Footer:** Substituímos as importações de `Facebook` e `Instagram` do pacote `lucide-react` para os SVGs oficiais puros, visto que o pacote original abandonou os ícones dessas grandes marcas recentemente.
+## Métricas (Lighthouse)
+A aplicação está otimizada para atingir excelentes métricas de performance, com os seguintes focos aplicados:
+- **Performance**: Renderização rápida via geração estática, uso de `next/image` e `IntersectionObserver` para animações lazy. Imagens em formato WebP são usadas de forma genérica.
+- **Acessibilidade**: Contraste aprimorado, atributos ARIA, labels descritivos, e tags semânticas HTML5 (main, section, header, footer).
+- **SEO**: Títulos e descrições únicas dinâmicas geradas no layout, junto de meta tags de indexação padrão para mobile.
+- **Melhores Práticas**: Otimização no carregamento da fonte e segurança de requisições em links (rel=noopener).
 
-## Avaliação Lighthouse (Build: out/)
+> **Aviso Importante**: Para que o Lighthouse obtenha as métricas absolutas, é necessário fazer o deploy no servidor final e substituir todas as imagens de placeholders genéricos por fotos de produtos com qualidade otimizada, já que as métricas de performance variam com o peso real das imagens no servidor. O build atual (out/) está gerando uma landing page rápida e estática.
 
-Abaixo temos uma projeção das métricas Lighthouse sobre o diretório `out/` (onde as imagens da interface atual constam como SVGs e mock-ups performáticos puramente em WebP sem carregamento de JS supérfluo, além de iframe desativado via clique no mapa):
+## Pendências de Imagem
+- **`og-image.jpg`**: A imagem atual localizada em `public/og-image.jpg` é provisória (placeholder). É crucial substituir por um banner real em dimensões 1200x630px para correta pré-visualização no WhatsApp, Facebook e outras redes sociais.
 
-*   **Performance:** 99-100/100 (Não existe processamento back-end e `next/image` em export joga todo WebP/AVIF cru, além de não ter o Framer Motion que injetaria bibliotecas JS massivas no bundle)
-*   **Accessibility:** 100/100 (Todos os ícones SVG, botões e atributos possuem `aria-labels` e contraste AA validado via Tailwind)
-*   **Best Practices:** 100/100 (Uso estrito de strict-mode e ausência de loggers desprotegidos em produção)
-*   **SEO:** 100/100 (Tags `og:image`, `twitter:card`, URL estática configurada, JSON-LD Schema de horários injetado).
-
-*Nota sobre Imagens:* O build foi otimizado assumindo que todos os assets da pasta `/public/images/` já serão disponibilizados em formato nativo WebP otimizados por você, operando como placeholders puros SVG/WebP no build inicial.
+## Instruções Pós-Deploy
+1. Cadastre e valide as configurações corretas da aba *Localização* (Google Maps iframe query).
+2. Valide os horários da loja no arquivo `config/restaurante.ts`.
+3. Verifique a URL do WhatsApp e garanta que o agente IA receba corretamente o contexto das mensagens.

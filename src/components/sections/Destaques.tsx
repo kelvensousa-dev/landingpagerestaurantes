@@ -32,7 +32,7 @@ export function Destaques() {
             <CardHeader className="flex-grow">
               <div className="flex justify-between items-start gap-4 mb-2">
                 <CardTitle className="text-xl">{product.name}</CardTitle>
-                <span className="font-bold text-[#f59e0b] whitespace-nowrap">
+                <span className="font-bold text-primary whitespace-nowrap">
                   R$ {product.price.toFixed(2).replace('.', ',')}
                 </span>
               </div>
@@ -43,7 +43,7 @@ export function Destaques() {
             <CardFooter>
               <Button 
                 asChild 
-                className="w-full bg-[#f59e0b] text-[#09090b] hover:bg-[#f59e0b]/90 font-semibold"
+                className="w-full bg-primary text-background hover:bg-primary/90 font-semibold"
                 onClick={() => trackWhatsAppClick("product", product.name)}
               >
                 <a 

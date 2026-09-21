@@ -22,7 +22,13 @@ export type BusinessHours = {
 export const restaurante = {
   name: "Artesanal Burger",
   domain: "https://artesanalburger.exemplo.com", // Used for metadataBase
+  cnpj: "12.345.678/0001-99",
   whatsappNumber: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "5511999999999",
+  social: {
+    instagram: "https://instagram.com",
+    facebook: "https://facebook.com",
+  },
+  privacyPolicyUrl: "/privacidade",
   colors: {
     primary: "#f59e0b", // Amber-500
     background: "#09090b", // Zinc-950
@@ -83,6 +89,12 @@ export const restaurante = {
     ] as Testimonial[],
   },
   objections: {
+    titles: {
+      deliveryTime: "Entrega Rápida",
+      deliveryFee: "Taxa de Entrega",
+      paymentMethods: "Formas de Pagamento",
+      coverage: "Área de Atendimento",
+    },
     deliveryTime: "30-45 min",
     deliveryFee: "Grátis no centro",
     paymentMethods: "Pix, Cartão e Dinheiro",
@@ -90,7 +102,6 @@ export const restaurante = {
   },
   location: {
     address: "Rua das Delícias, 123 - Centro, São Paulo - SP",
-    mapIframeUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.0970102148784!2d-46.66699268447573!3d-23.565451967634283!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c8da0aa315%3A0xd59f9431f2c9776a!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1689360000000!5m2!1spt-BR!2sbr",
     staticFacadeUrl: "/images/facade.webp",
   },
   // Record of BusinessHours where key is day of week (0 = Sunday, 1 = Monday, etc.)

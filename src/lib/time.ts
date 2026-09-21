@@ -1,22 +1,42 @@
-import { restaurante } from "../config/restaurante";
+import { BusinessHours } from "../config/restaurante";
 
-export function getSaoPauloDate(date: Date): Date {
-  const spTimeString = date.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" });
-  return new Date(spTimeString);
+export function getSaoPauloParts(date: Date) {
+  const formatter = new Intl.DateTimeFormat("pt-BR", {
+    timeZone: "America/Sao_Paulo",
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false
+  });
+
+  const parts = formatter.formatToParts(date);
+  const getPart = (type: string) => parts.find((p) => p.type === type)?.value || "";
+  
+  // To get the actual day of week (0 = Sunday) accurately in the timezone,
+  // we can reconstruct a Date object from the SP year, month, day in UTC, and then call getUTCDay()
+  const year = parseInt(getPart("year"), 10);
+  const month = parseInt(getPart("month"), 10) - 1; // 0-indexed
+  const day = parseInt(getPart("day"), 10);
+  
+  const hour = parseInt(getPart("hour"), 10);
+  const minute = parseInt(getPart("minute"), 10);
+
+  const spDateUTC = new Date(Date.UTC(year, month, day));
+  const dayOfWeek = spDateUTC.getUTCDay(); // 0 = Sunday
+  
+  return { dayOfWeek, hour, minute };
 }
 
-export function isOpen(date: Date): boolean {
-  const spDate = getSaoPauloDate(date);
+export function isOpen(date: Date, schedule: Record<number, BusinessHours>): boolean {
+  const { dayOfWeek, hour, minute } = getSaoPauloParts(date);
+  const currentMinutes = hour * 60 + minute;
   
-  // getDay() returns 0 for Sunday, 1 for Monday, etc.
-  const dayOfWeek = spDate.getDay();
-  const schedule = restaurante.schedule[dayOfWeek];
+  const todaySchedule = schedule[dayOfWeek];
   
-  // Previous day schedule to check for shifts crossing midnight
   const prevDayOfWeek = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
-  const prevSchedule = restaurante.schedule[prevDayOfWeek];
-
-  const currentMinutes = spDate.getHours() * 60 + spDate.getMinutes();
+  const prevSchedule = schedule[prevDayOfWeek];
 
   // Check if still open from previous day's shift
   if (prevSchedule && !prevSchedule.closedAllDay && prevSchedule.open && prevSchedule.close) {
@@ -33,18 +53,18 @@ export function isOpen(date: Date): boolean {
     }
   }
 
-  if (!schedule || schedule.closedAllDay || !schedule.open || !schedule.close) {
+  if (!todaySchedule || todaySchedule.closedAllDay || !todaySchedule.open || !todaySchedule.close) {
     return false;
   }
 
-  const [openH, openM] = schedule.open.split(":").map(Number);
-  const [closeH, closeM] = schedule.close.split(":").map(Number);
+  const [openH, openM] = todaySchedule.open.split(":").map(Number);
+  const [closeH, closeM] = todaySchedule.close.split(":").map(Number);
   
   const openMinutes = openH * 60 + openM;
   const closeMinutes = closeH * 60 + closeM;
 
   if (closeMinutes < openMinutes) {
-    // Shift crosses midnight, so if current time is after open time, it's open today
+    // Shift crosses midnight
     if (currentMinutes >= openMinutes) {
       return true;
     }

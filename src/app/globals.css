@@ -1,18 +1,12 @@
 @import "tailwindcss";
 
-@theme {
+@theme inline {
   --font-sans: var(--font-inter);
   --font-display: var(--font-outfit);
   
-  --color-primary: var(--color-primary-base);
-  --color-background: var(--color-background-base);
-  --color-foreground: var(--color-foreground-base);
-}
-
-:root {
-  --color-primary-base: #f59e0b; /* Amber 500 */
-  --color-background-base: #09090b; /* Zinc 950 */
-  --color-foreground-base: #fafafa; /* Zinc 50 */
+  --color-primary: var(--brand-primary);
+  --color-background: var(--brand-bg);
+  --color-foreground: var(--brand-fg);
 }
 
 @layer base {
@@ -23,6 +17,12 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 }
 

@@ -7,7 +7,7 @@ import { Smartphone } from "lucide-react";
 
 export function ChamadaFinal() {
   return (
-    <section className="py-24 bg-[#f59e0b] text-[#09090b] text-center px-4 relative overflow-hidden">
+    <section className="py-24 bg-primary text-background text-center px-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-black/10" />
       
       <div className="relative z-10 max-w-3xl mx-auto">
@@ -21,7 +21,7 @@ export function ChamadaFinal() {
         <Button 
           asChild
           size="lg" 
-          className="text-lg font-bold bg-[#09090b] text-white hover:bg-[#09090b]/80 h-16 px-10 rounded-full shadow-xl shadow-black/20 hover:scale-105 transition-transform"
+          className="text-lg font-bold bg-background text-foreground hover:bg-background/80 h-16 px-10 rounded-full shadow-xl shadow-black/20 hover:scale-105 transition-transform"
         >
           <a 
             href={generateWhatsAppLink(getPrefilledMessage("final_call"))}

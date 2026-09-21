@@ -16,11 +16,11 @@ export function Hero() {
   useEffect(() => {
     // Calcular apenas no cliente para evitar hydration mismatch
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setOpenStatus(isOpen(new Date()));
+    setOpenStatus(isOpen(new Date(), restaurante.schedule));
     
     // Atualizar a cada minuto
     const interval = setInterval(() => {
-      setOpenStatus(isOpen(new Date()));
+      setOpenStatus(isOpen(new Date(), restaurante.schedule));
     }, 60000);
     
     return () => clearInterval(interval);
@@ -28,14 +28,6 @@ export function Hero() {
 
   const handleWhatsAppClick = () => {
     trackWhatsAppClick("hero");
-  };
-
-  const handleMenuClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const dest = document.getElementById("destaques");
-    if (dest) {
-      dest.scrollIntoView({ behavior: "smooth" });
-    }
   };
 
   return (
@@ -75,7 +67,7 @@ export function Hero() {
           <Button 
             asChild
             size="lg" 
-            className="text-base font-bold bg-[#f59e0b] text-[#09090b] hover:bg-[#f59e0b]/90 h-14 px-8 w-full sm:w-auto hero-wa-btn"
+            className="text-base font-bold bg-primary text-background hover:bg-primary/90 h-14 px-8 w-full sm:w-auto hero-wa-btn motion-safe:animate-[pulse-ring_8s_ease-in-out_infinite]"
           >
             <a 
               href={generateWhatsAppLink(getPrefilledMessage("hero"))}
@@ -93,7 +85,7 @@ export function Hero() {
             variant="outline"
             className="text-base h-14 px-8 w-full sm:w-auto"
           >
-            <a href="#destaques" onClick={handleMenuClick}>
+            <a href="#destaques">
               Ver cardápio
             </a>
           </Button>
