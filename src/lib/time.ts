@@ -3,12 +3,12 @@ import { BusinessHours } from "../config/restaurante";
 export function getSaoPauloParts(date: Date) {
   const formatter = new Intl.DateTimeFormat("pt-BR", {
     timeZone: "America/Sao_Paulo",
+    hourCycle: "h23",
     year: "numeric",
     month: "numeric",
     day: "numeric",
     hour: "numeric",
     minute: "numeric",
-    hour12: false
   });
 
   const parts = formatter.formatToParts(date);

@@ -35,4 +35,16 @@ describe('Time calculation - isOpen', () => {
     const date = new Date('2026-09-27T01:00:00-03:00');
     expect(isOpen(date, mockSchedule)).toBe(true);
   });
+
+  it('should be open on Wednesday at 00:30 (Tuesday shift ends at 01:00)', () => {
+    // 2026-09-23 is a Wednesday
+    const date = new Date('2026-09-23T00:30:00-03:00');
+    expect(isOpen(date, mockSchedule)).toBe(true);
+  });
+
+  it('should be closed on Sunday at 23:00 (Sunday shift ends exactly at 23:00)', () => {
+    // 2026-09-27 is a Sunday, closes at 23:00
+    const date = new Date('2026-09-27T23:00:00-03:00');
+    expect(isOpen(date, mockSchedule)).toBe(false);
+  });
 });

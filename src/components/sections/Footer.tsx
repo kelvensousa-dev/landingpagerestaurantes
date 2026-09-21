@@ -23,7 +23,9 @@ export function Footer() {
 
         <div className="flex flex-col items-center md:items-end text-center md:text-right gap-2">
           <span>&copy; {currentYear} {restaurante.name}. Todos os direitos reservados.</span>
-          <a href={restaurante.privacyPolicyUrl} className="hover:text-zinc-50 underline underline-offset-4">Política de Privacidade</a>
+          {restaurante.privacyPolicyUrl && (
+            <a href={restaurante.privacyPolicyUrl} className="hover:text-zinc-50 underline underline-offset-4">Política de Privacidade</a>
+          )}
         </div>
       </div>
     </footer>

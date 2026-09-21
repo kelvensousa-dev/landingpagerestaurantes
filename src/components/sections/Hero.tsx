@@ -42,7 +42,7 @@ export function Hero() {
           className="object-cover"
         />
         {/* Dark gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#09090b] via-[#09090b]/80 to-[#09090b]/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-background/40" />
       </div>
 
       {/* Content */}
@@ -67,7 +67,7 @@ export function Hero() {
           <Button 
             asChild
             size="lg" 
-            className="text-base font-bold bg-primary text-background hover:bg-primary/90 h-14 px-8 w-full sm:w-auto hero-wa-btn motion-safe:animate-[pulse-ring_8s_ease-in-out_infinite]"
+            className="text-base font-bold bg-primary text-background hover:bg-primary/90 h-14 px-8 w-full sm:w-auto hero-wa-btn"
           >
             <a 
               href={generateWhatsAppLink(getPrefilledMessage("hero"))}

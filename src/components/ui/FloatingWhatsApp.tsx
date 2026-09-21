@@ -39,7 +39,7 @@ export function FloatingWhatsApp() {
       rel="noopener noreferrer"
       onClick={() => trackWhatsAppClick("floating")}
       aria-label="Falar conosco no WhatsApp"
-      className="fixed bottom-[env(safe-area-inset-bottom,16px)] right-4 md:right-8 z-50 flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-lg shadow-black/20 hover:scale-110 transition-transform hover:bg-[#20bd5a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#25D366] animate-[pulse-ring_8s_ease-in-out_infinite]"
+      className="fixed bottom-[calc(1rem+env(safe-area-inset-bottom))] right-4 md:right-8 z-50 flex items-center justify-center w-14 h-14 bg-[#25D366] text-white rounded-full shadow-lg shadow-black/20 hover:scale-110 transition-transform hover:bg-[#20bd5a] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#25D366] motion-safe:animate-[pulse-ring_8s_ease-in-out_infinite]"
     >
       <MessageCircle className="w-8 h-8" />
       {/* 
